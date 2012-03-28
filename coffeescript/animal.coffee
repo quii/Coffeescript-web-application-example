@@ -1,3 +1,3 @@
 class Animal
 	shout: ->
-		console.log("Woof?")
+		console.log("meow?")
