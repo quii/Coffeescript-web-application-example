@@ -1,3 +1,2 @@
-$ ->
-	dog = new Animal()
-	dog.bark()
+dog = new Animal()
+dog.bark()

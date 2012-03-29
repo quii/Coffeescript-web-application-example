@@ -2,25 +2,9 @@ fs         = require 'fs'
 {exec}     = require 'child_process'
 
 appFiles  = [
-  'coffeescript/animal.coffee' # put your files that must be loaded in first into the array
+  'coffeescript/animal.coffee'
   'coffeescript/implementation.coffee'
 ]
-
-task 'coffeeFiles', 'how much coffee you got?!', ->
-  traverseFileSystem = (currentPath) ->
-      files = fs.readdirSync currentPath
-      for file in files
-        do (file) ->
-          currentFile = currentPath + '/' + file
-          stats = fs.statSync(currentFile)
-          if stats.isFile() and currentFile.indexOf('.coffee') > 1 and appFiles.join('=').indexOf("#{currentFile}=") < 0
-            appFiles.push currentFile
-          else if stats.isDirectory()
-            traverseFileSystem currentFile
-
-  traverseFileSystem 'coffeescript'
-  console.log "#{appFiles.length} coffee files found."
-  return appFiles
 
 task 'watch', 'Watch prod source files and build changes', ->
     invoke 'build'
@@ -33,8 +17,9 @@ task 'watch', 'Watch prod source files and build changes', ->
                 invoke 'build'
 
 task 'build', 'Build single application file from source files', ->
-  invoke 'coffeeFiles'
-  appContents = new Array remaining = appFiles.length
+  appContents = new Array 
+  remaining = appFiles.length
+  console.log("appfiles length -", remaining)
   for file, index in appFiles then do (file, index) ->
     fs.readFile file, 'utf8', (err, fileContents) ->
       throw err if err
